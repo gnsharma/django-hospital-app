@@ -25,13 +25,11 @@ class LoginForm(ModelForm):
 
 
 class AppointmentForm(ModelForm):
+    doctor = ModelChoiceField(queryset = User.objects.filter(profile__is_doctor=True))
     
     class Meta:
         model = Appointment
-        fields = ('doctor', 'datetime')
-        field_classes = {
-            'doctor': ModelChoiceField(queryset=User.objects.filter(profile__is_doctor=True)),
-        }
+        fields = ('datetime',)
         widgets = {
             'datetime': SplitDateTimeWidget, 
         }
