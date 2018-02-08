@@ -1,0 +1,9 @@
+{% extends 'app/base.haml' %}
+
+{% block content %}
+
+%form{:action => "{% url 'app:appointment' %}", :method => "post"}
+    {% csrf_token %}
+    {{ form }}
+    %input{:type => "submit", :value => "Submit"}
+{% endblock %}

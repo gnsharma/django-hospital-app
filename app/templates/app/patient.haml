@@ -1,0 +1,15 @@
+{% extends 'app/base.haml' %}
+
+{% block content %}
+%p You ({{ user.first_name }} {{ user.last_name }}) are logged in as a patient
+%a{:href => "{% url 'app:appointment' %}"} Book a new appointment
+{% if not no_appointments %}
+    %ul
+        %p Doctor Name                   Time
+        {% for appointment in appointment_list %}
+            %li {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}           {{ appointment.datetime }} 
+        {% endfor %}
+{% else %}
+    %p You don't have any appointment
+{% endif %}
+{% endblock %}
