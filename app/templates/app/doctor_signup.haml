@@ -1,0 +1,9 @@
+{% extends 'app/base.haml' %}
+
+{% block content %}
+
+%form{:action => "{% url 'app:doctor-signup' %}", :method => "post"}
+    {% csrf_token %}
+    {{ form.as_table }}
+    %input{:type => "submit", :value => "Submit"}
+{% endblock %}

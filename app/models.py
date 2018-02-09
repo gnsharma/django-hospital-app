@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.signals import post_save
@@ -6,11 +6,11 @@ from django.dispatch import receiver
 from django.utils import timezone
 
 class Patient(models.Model):
-    patient = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 class Doctor(models.Model):
-    doctor = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 #@receiver(post_save, sender=User)
 #def create_or_update_doctors(sender, instance, created, **kwargs):
@@ -32,6 +32,6 @@ class Doctor(models.Model):
 #
 
 class Appointment(models.Model):
-    datetime = models.DateTimeField(default=timezone.now) 
+    datetime = models.DateTimeField(default=timezone.now)
     patient = models.ForeignKey(Patient, related_name='patient', on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, related_name='doctor', on_delete=models.CASCADE)

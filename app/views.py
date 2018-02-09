@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 
 from .models import Patient, Doctor, Appointment
-from .forms import ProfileForm, LoginForm, AppointmentForm 
+from .forms import SignUpForm, LoginForm, AppointmentForm 
 
 
 class HomeView(View):
@@ -18,21 +18,48 @@ class HomeView(View):
 
 
 class SignUpView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'app/signup.haml', {})
+
+
+class PatientSignUpView(View):
     
     def get(self, request, *args, **kwargs):
-        form = ProfileForm()
-        return render(request, 'app/signup.haml', {'form': form}) 
+        form = SignUpForm()
+        return render(request, 'app/patient_signup.haml', {'form': form}) 
 
     def post(self, request, *args, **kwargs):
-        form = ProfileForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.password = make_password(form.cleaned_data['password'])
             user.save()
-            
-            return HttpResponseRedirect(reverse('app:home'))
+            import ipdb; ipdb.set_trace()
+            patient = Patient(user=user)
+            patient.save()
+            return HttpResponseRedirect(reverse('app:login'))
         else:
-            return render(request, 'app/signup.haml', {'form': form})
+            return render(request, 'app/patient_signup.haml', {'form': form})
+
+
+class DoctorSignUpView(View):
+    
+    def get(self, request, *args, **kwargs):
+        form = SignUpForm()
+        return render(request, 'app/doctor_signup.haml', {'form': form}) 
+
+    def post(self, request, *args, **kwargs):
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.password = make_password(form.cleaned_data['password'])
+            user.save()
+            doctor = Doctor(user=user)
+            doctor.save()
+            return HttpResponseRedirect(reverse('app:login'))
+        else:
+            return render(request, 'app/doctor_signup.haml', {'form': form})
 
 
 class LoginView(View):
