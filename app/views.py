@@ -69,22 +69,25 @@ class LoginView(View):
         return render(request, 'app/login.haml', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        user = authenticate(username=request.POST['username'], password=request.POST['password'])
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                if user.profile.is_doctor is True:
-                    return HttpResponseRedirect(reverse('app:doctor', args=(user.id,)))
+        form = LoginForm(request.POST)
+        import ipdb; ipdb.set_trace()
+        if form.is_valid():
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    if hasattr(user, 'doctor'):
+                        return HttpResponseRedirect(reverse('app:doctor', args=(user.id,)))
+                    elif hasattr(user, 'patient'):
+                        return HttpResponseRedirect(reverse('app:patient', args=(user.id,)))
                 else:
-                    return HttpResponseRedirect(reverse('app:patient', args=(user.id,)))
-            else:
-                return HttpResponse("Your account is disabled.")
+                    return HttpResponse("Your account is disabled.")
     
+            else:
+                form = LoginForm()
+                return render(request, 'app/login.haml', {'form': form})
         else:
-            print("invalid login details")
-            form = LoginForm()
             return render(request, 'app/login.haml', {'form': form})
-
 
 class LogoutView(View):
     
