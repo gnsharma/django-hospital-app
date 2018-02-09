@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 
-from .models import Profile, Appointment
+from .models import Patient, Doctor, Appointment
 from .forms import ProfileForm, LoginForm, AppointmentForm 
 
 
@@ -26,14 +26,12 @@ class SignUpView(View):
     def post(self, request, *args, **kwargs):
         form = ProfileForm(request.POST)
         if form.is_valid():
-            print("form is valid")
             user = form.save(commit=False)
             user.password = make_password(form.cleaned_data['password'])
-            user._is_doctor = form.cleaned_data['is_doctor']
             user.save()
+            
             return HttpResponseRedirect(reverse('app:home'))
         else:
-            print("form is not valid")
             return render(request, 'app/signup.haml', {'form': form})
 
 
