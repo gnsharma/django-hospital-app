@@ -135,13 +135,12 @@ class AppointmentView(LoginRequiredMixin, View):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             import ipdb; ipdb.set_trace()
-            appointment = form.save(commit=False)
-            appointment.patient = request.user
+#            appointment = form.save(commit=False)
+#            appointment.patient = request.user
             return HttpResponseRedirect(reverse('app:home'))
         else:
             print("form is not valid")
             return render(request, 'app/appointment.haml', {'form': form})
-
 
 
 
