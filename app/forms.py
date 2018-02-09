@@ -18,7 +18,7 @@ class LoginForm(Form):
     
 
 class AppointmentForm(ModelForm):
-#    doctor = ModelChoiceField(queryset = User.objects.filter(profile__is_doctor=True))
+    doctor = ModelChoiceField(queryset = Doctor.objects.all())
     
     class Meta:
         model = Appointment
