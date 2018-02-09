@@ -32,8 +32,12 @@ class PatientSignUpView(View):
     def post(self, request, *args, **kwargs):
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
+            user = User()
             user.password = make_password(form.cleaned_data['password'])
+            user.username = form.cleaned_data['username']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
             user.save()
             import ipdb; ipdb.set_trace()
             patient = Patient(user=user)
@@ -52,8 +56,12 @@ class DoctorSignUpView(View):
     def post(self, request, *args, **kwargs):
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
+            user = User()
             user.password = make_password(form.cleaned_data['password'])
+            user.username = form.cleaned_data['username']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
             user.save()
             doctor = Doctor(user=user)
             doctor.save()
