@@ -144,6 +144,6 @@ class AppointmentView(LoginRequiredMixin, View):
             patient = Patient.objects.get(user__id=request.user.id)
             appointment.patient = patient
             appointment.save()
-            return HttpResponseRedirect(reverse('app:patient'))
+            return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
         else:
             return render(request, 'app/appointment.haml', {'form': form})
