@@ -3,4 +3,21 @@
 {% block content %}
 %h2
   Welcome to the Hospital App!
+  %span.icon-emo-happy
+%p.lead
+  If you already have an account, go ahead and 
+  %a{:href => "{% url 'app:login' %}"}log in
+  \. If you are new to Hospital App, get started by creating a 
+  %a{:href => "{% url 'app:patient-signup' %}"}patient account
+  or a 
+  %a{:href => "{% url 'app:doctor-signup' %}"}teacher account
+  \.
+%hr
+%h3 What's this about?
+%p This Django application is an example I created to practice my Django skills. In this application, users can sign up as a patient or a doctor. Patients can book an appointment with a doctor
+%p Want to run this code locally? 
+  %a{:href => "https://github.com/gnsharma/django-hospital-app"}Clone this repository and start django server
+%p.mb-0 Govind Sharma
+  %br
+  %a{:href => "https://github.com/gnsharma/"}Github
 {% endblock %}

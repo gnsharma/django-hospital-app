@@ -4,7 +4,7 @@
 
 %h2 Sign up for a free account
 %p.lead Select below the type of account you want to create
-%a.btn.btn-lg{:href => "{% url 'app:patient-signup' %}", :role => "button"} I am a patient
-%a.btn.btn-lg{:href => "{% url 'app:doctor-signup' %}", :role => "button"} I am a doctor
+%a.btn.btn-patient.btn-lg{:href => "{% url 'app:patient-signup' %}", :role => "button"} I am a patient
+%a.btn.btn-doctor.btn-lg{:href => "{% url 'app:doctor-signup' %}", :role => "button"} I am a doctor
 
 {% endblock %}

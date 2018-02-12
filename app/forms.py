@@ -18,26 +18,23 @@ class LoginForm(Form):
     password = CharField(label='Password', widget=PasswordInput, max_length=150)
     
 
-class AppointmentForm(Form):
-    doctors = Doctor.objects.all()
-    choice_list = []
-    for doctor in doctors:
-        choice_list.append((doctor.id, doctor))
-
-    doctor_choices = ChoiceField(choices=choice_list)
-    datetime = DateTimeField(widget=SplitDateTimeWidget, initial=timezone.now())
-    #doctor = ModelChoiceField(queryset = Doctor.objects.all())
+class AppointmentForm(ModelForm):
+#    doctors = Doctor.objects.all()
+#    choice_list = []
+#    for doctor in doctors:
+#        choice_list.append((doctor.id, doctor))
+#
+#    doctor_choices = ChoiceField(choices=choice_list)
+#    datetime = DateTimeField( initial=timezone.now())
+    doctor = ModelChoiceField(queryset = Doctor.objects.all())
     
-#    class Meta:
-#        model = Appointment
-#        fields = ('datetime',)
-#        #field_classes = {
-#        #    'doctor': ModelChoiceField(queryset = Doctor.objects.all())
-#        #}
+    class Meta:
+        model = Appointment
+        fields = ['datetime', 'doctor']
 #        widgets = {
 #            'datetime': SplitDateTimeWidget, 
 #        }
-#
+
 
 
 

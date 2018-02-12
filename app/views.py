@@ -14,7 +14,13 @@ from .forms import SignUpForm, LoginForm, AppointmentForm
 class HomeView(View):
     
     def get(self, request, *args, **kwargs):
-        return render(request, 'app/home.haml')
+        if request.user.is_authenticated:
+            if hasattr(request.user, 'doctor'):
+                return HttpResponseRedirect(reverse('app:doctor', args=(request.user.id,)))
+            if hasattr(request.user, 'patient'):
+                return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
+        else:
+            return render(request, 'app/home.haml')
 
 
 class SignUpView(View):
@@ -108,7 +114,7 @@ class PatientView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         no_appointments = False
-        appointment_list = list(Appointment.objects.filter(patient=kwargs['id'])) 
+        appointment_list = list(Appointment.objects.filter(patient__user=kwargs['id'])) 
         if not appointment_list:
             no_appointments = True
         return render(request, 'app/patient.haml', {'no_appointments': no_appointments, 'appointment_list': appointment_list})
@@ -118,7 +124,7 @@ class DoctorView(LoginRequiredMixin, View):
     
     def get(self, request, *args, **kwargs):
         no_appointments = False
-        appointment_list = list(Appointment.objects.filter(doctor = kwargs['id'])) 
+        appointment_list = list(Appointment.objects.filter(doctor__user=kwargs['id'])) 
         if not appointment_list:
             no_appointments = True
         return render(request, 'app/doctor.haml', {'no_appointments': no_appointments, 'appointment_list': appointment_list})
@@ -135,11 +141,12 @@ class AppointmentView(LoginRequiredMixin, View):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             import ipdb; ipdb.set_trace()
-#            appointment = form.save(commit=False)
-#            appointment.patient = request.user
-            return HttpResponseRedirect(reverse('app:home'))
+            appointment = form.save(commit=False)
+            patient = Patient.objects.get(user__id=request.user.id)
+            appointment.patient = patient
+            appointment.save()
+            return HttpResponseRedirect(reverse('app:patient'))
         else:
-            print("form is not valid")
             return render(request, 'app/appointment.haml', {'form': form})
 
 

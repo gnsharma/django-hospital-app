@@ -2,8 +2,27 @@
 
 {% block content %}
 
-%form{:action => "{% url 'app:login' %}", :method => "post"}
-    {% csrf_token %}
-    {{ form }}
-    %input{:type => "submit", :value => "Submit"}
+{% if form.non_field_errors %}
+.alert.alert-danger.alert-dismissible.fade.show{:role => "alert"}
+  {% for error in form.non_field_errors %}
+  %p {{ error }}
+  {% endfor %}
+  %button.close{:type => "button", :data-dismiss => "alert", :area-label => "Close" }
+    %span{:aria-hidden => "true"}&times;
+{% endif %}
+
+.row
+  .col-lg-4.col-md-6.col-sm-8.col-12
+
+    %form{:action => "{% url 'app:login' %}", :method => "post"}
+      {% csrf_token %}
+      {% for field in form %}
+        .fieldWrapper
+          {{ field.errors }}
+          {{ field.label_tag }} {{ field }}
+          {% if field.help_text %}
+          %p.help {{ field.help_text|safe }}
+          {% endif %}
+      {% endfor %}
+      %button.btn.btn-primary{:type => "submit"}Log in
 {% endblock %}

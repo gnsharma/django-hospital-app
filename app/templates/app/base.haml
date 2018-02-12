@@ -1,36 +1,39 @@
 {% load static %}
 !!!
 %html
-    %head
-        %meta{:charset => "utf-8"}
-        %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}
+  %head
+     %meta{:charset => "utf-8"}
+     %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}
         
-        %title {% block title %}Hospital App{% endblock %}
-        %link{:href => "{% static 'img/favicon.png' %}", :rel => "icon"}
+     %title {% block title %}Hospital App{% endblock %}
+     %link{:href => "{% static 'app/img/favicon.png' %}", :rel => "icon"}
         
-        %link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", :integrity => "sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", :rel => "stylesheet"}
-    
-    %body
-      .container.my-4
-        .row.justify-content-center
-          .col-md-10.col-sm-12
-            .row
-              .col-6
-                %h1.logo
-                  %a{:href => "{% url 'app:home' %}"}Hospital App
-              .col-6.text-right
-                {% if user.is_authenticated %}
-                  %p.pt-3 Logged in as 
-                    %strong {{user.username }}
-                    %a.btn.btn-primary{:href => "{% url 'app:logout' %}", :role => "button"} Logout
-                {% else %}
-                  %a.btn.btn-primary{:href => "{% url 'app:login' %}", :role => "button"} Login
-                  %a.btn.btn-primary{:href => "{% url 'app:signup' %}", :role => "button"} Sign up
-                {% endif %}
-        .card.mb-3
-          .card-body
-            {% block content %}
+     %link{:href => "https://fonts.googleapis.com/css?family=Clicker+Script", :rel => "stylesheer"}
+     %link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", :integrity => "sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", :rel => "stylesheet"}
+    %link{:href => "{% static 'vendor/fontello-2f186091/css/fontello.css' %}", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "{% static 'app/css/app.css' %}", :rel => "stylesheet", :type => "text/css"}
+
+  %body
+    .container.my-4
+      .row.justify-content-center
+        .col-md-10.col-sm-12
+          .row
+            .col-6
+              %h1.logo
+                %a{:href => "{% url 'app:home' %}"}Hospital App
+            .col-6.text-right
+              {% if user.is_authenticated %}
+                %p.pt-3 Logged in as 
+                  %strong {{user.username }}
+                  %a{:href => "{% url 'app:logout' %}"}Logout
+              {% else %}
+                %a.btn.btn-light{:href => "{% url 'app:login' %}", :role => "button"} Login
+                %a.btn.btn-primary{:href => "{% url 'app:signup' %}", :role => "button"} Sign up
+              {% endif %}
+          .card.mb-3
+            .card-body
+              {% block content %}
             
-            {% endblock %}
-    %footer
-        %a{:href => "https://github.com/gnsharma/django-hospital-app"} GitHub repository
+              {% endblock %}
+          %footer
+            %a{:href => "https://github.com/gnsharma/django-hospital-app"} GitHub repository

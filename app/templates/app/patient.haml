@@ -1,15 +1,26 @@
 {% extends 'app/base.haml' %}
 
 {% block content %}
+
 %p You ({{ user.first_name }} {{ user.last_name }}) are logged in as a patient
-%a{:href => "{% url 'app:appointment' %}"} Book a new appointment
+%a.btn.btn-lrg.btn-primary{:href => "{% url 'app:appointment' %}"} Book a new appointment
+%br
+%br
 {% if not no_appointments %}
-    %ul
-        %p Doctor Name                   Time
+  .table-responsive
+    %table.table.table-hover.table-striped.table-bordered
+      %thead
+        %tr
+          %th Doctor Name
+          %th Time
+      %tbody
         {% for appointment in appointment_list %}
-            %li {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}           {{ appointment.datetime }} 
+        %tr
+          %th {{ appointment.doctor.user.first_name }} {{ appointment.doctor.user.last_name }}
+          %th {{ appointment.datetime }}
         {% endfor %}
 {% else %}
     %p You don't have any appointment
 {% endif %}
+
 {% endblock %}

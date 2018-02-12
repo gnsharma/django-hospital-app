@@ -1,14 +1,23 @@
 {% extends 'app/base.haml' %}
 
 {% block content %}
+
 %p You ({{ user.first_name }} {{ user.last_name }}) are logged in as a doctor
 {% if not no_appointments %}
-    %ul
-        %p Patient Name                 Time
+  .table-responsive
+    %table.table.table-hover.table-striped.table-bordered
+      %thead
+        %tr
+          %th Patient Name
+          %th Time
+      %tbody
         {% for appointment in appointment_list %}
-            %li {{ appointment.patient.first_name }} {{ appointment.patient.last_name }}           {{ appointment.datetime }}
+        %tr
+          %th {{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}           
+          %th {{ appointment.datetime }}
         {% endfor %}
 {% else %}
-    %p You don't have any appointment
+  %p You don't have any appointment
 {% endif %}
+
 {% endblock %}
