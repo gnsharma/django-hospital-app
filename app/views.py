@@ -1,4 +1,4 @@
-from django.shortcuts import get_list_or_404, render
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import View
@@ -45,8 +45,6 @@ class PatientSignUpView(View):
             user.last_name = form.cleaned_data['last_name']
             user.email = form.cleaned_data['email']
             user.save()
-            import ipdb
-            ipdb.set_trace()
             patient = Patient(user=user)
             patient.save()
             return HttpResponseRedirect(reverse('app:login'))
@@ -85,8 +83,6 @@ class LoginView(View):
 
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST)
-        import ipdb
-        ipdb.set_trace()
         if form.is_valid():
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user is not None:
@@ -142,12 +138,8 @@ class AppointmentView(LoginRequiredMixin, View):
         return render(request, 'app/appointment.haml', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        import ipdb
-        ipdb.set_trace()
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            import ipdb
-            ipdb.set_trace()
             appointment = form.save(commit=False)
             patient = Patient.objects.get(user__id=request.user.id)
             appointment.patient = patient

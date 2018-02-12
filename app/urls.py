@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import HomeView, SignUpView, PatientSignUpView, DoctorSignUpView, LoginView, LogoutView, DoctorView, PatientView, AppointmentView
+from .views import HomeView, SignUpView, PatientSignUpView, DoctorSignUpView, LoginView
+from .views import LogoutView, DoctorView, PatientView, AppointmentView
 
 app_name = 'app'
 urlpatterns = [

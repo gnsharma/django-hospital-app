@@ -1,4 +1,0 @@
--   repo: git@github.com:gnsharma/django-hospital-app.git
-    sha: v1.2.0
-    hooks:
-    -   id: debug-statements

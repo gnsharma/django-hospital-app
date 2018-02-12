@@ -1,9 +1,7 @@
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import User
-from django.forms import DateTimeField, EmailField, ChoiceField, CharField, Form, ModelChoiceField, PasswordInput, SplitDateTimeWidget, ModelForm, DateTimeInput, Textarea, BooleanField
-from django.utils import timezone
+from django.forms import ModelChoiceField, EmailField, CharField, Form
+from django.forms import PasswordInput, ModelForm
 
-from .models import Doctor, Patient, Appointment
+from .models import Doctor, Appointment
 
 
 class SignUpForm(Form):
@@ -22,18 +20,8 @@ class LoginForm(Form):
 
 
 class AppointmentForm(ModelForm):
-    #    doctors = Doctor.objects.all()
-    #    choice_list = []
-    #    for doctor in doctors:
-    #        choice_list.append((doctor.id, doctor))
-    #
-    #    doctor_choices = ChoiceField(choices=choice_list)
-    #    datetime = DateTimeField( initial=timezone.now())
     doctor = ModelChoiceField(queryset=Doctor.objects.all())
 
     class Meta:
         model = Appointment
         fields = ['datetime', 'doctor']
-#        widgets = {
-#            'datetime': SplitDateTimeWidget,
-#        }
