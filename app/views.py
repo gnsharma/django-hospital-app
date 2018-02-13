@@ -112,23 +112,17 @@ class LogoutView(View):
 class PatientView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        no_appointments = False
         appointment_list = list(Appointment.objects.filter(patient__user=kwargs['id']))
-        if not appointment_list:
-            no_appointments = True
         return render(request, 'app/patient.haml',
-                      {'no_appointments': no_appointments, 'appointment_list': appointment_list})
+                      {'appointment_list': appointment_list})
 
 
 class DoctorView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        no_appointments = False
         appointment_list = list(Appointment.objects.filter(doctor__user=kwargs['id']))
-        if not appointment_list:
-            no_appointments = True
         return render(request, 'app/doctor.haml',
-                      {'no_appointments': no_appointments, 'appointment_list': appointment_list})
+                      {'appointment_list': appointment_list})
 
 
 class AppointmentView(LoginRequiredMixin, View):

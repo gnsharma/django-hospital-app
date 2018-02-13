@@ -6,7 +6,9 @@
 %a.btn.btn-lrg.btn-primary{:href => "{% url 'app:appointment' %}"} Book a new appointment
 %br
 %br
-{% if not no_appointments %}
+{% if not appointment_list %}
+    %p You don't have any appointment
+{% else %}
   .table-responsive
     %table.table.table-hover.table-striped.table-bordered
       %thead
@@ -19,8 +21,6 @@
           %th {{ appointment.doctor.user.first_name }} {{ appointment.doctor.user.last_name }}
           %th {{ appointment.datetime }}
         {% endfor %}
-{% else %}
-    %p You don't have any appointment
 {% endif %}
 
 {% endblock %}

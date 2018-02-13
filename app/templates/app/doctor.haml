@@ -3,7 +3,9 @@
 {% block content %}
 
 %p You ({{ user.first_name }} {{ user.last_name }}) are logged in as a doctor
-{% if not no_appointments %}
+{% if not appointment_list %}
+  %p You don't have any appointment
+{% else %}
   .table-responsive
     %table.table.table-hover.table-striped.table-bordered
       %thead
@@ -16,8 +18,6 @@
           %th {{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}           
           %th {{ appointment.datetime }}
         {% endfor %}
-{% else %}
-  %p You don't have any appointment
 {% endif %}
 
 {% endblock %}
