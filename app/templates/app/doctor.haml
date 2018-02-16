@@ -2,7 +2,9 @@
 
 {% block content %}
 
-%p You ({{ user.first_name }} {{ user.last_name }}) are logged in as a doctor
+%p You ({{ user.first_name|capfirst }} {{ user.last_name|capfirst }}) are logged in as a doctor
+
+{% comment %}
 {% if not appointment_list %}
   %p You don't have any appointment
 {% else %}
@@ -15,9 +17,12 @@
       %tbody
         {% for appointment in appointment_list %}
         %tr
-          %th {{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}           
+          %th {{ appointment.patient.user.first_name|capfirst }} {{ appointment.patient.user.last_name|capfirst }}           
           %th {{ appointment.datetime }}
         {% endfor %}
 {% endif %}
+{% endcomment %}
+
+{% include 'app/table.haml' %}
 
 {% endblock %}

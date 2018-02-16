@@ -1,31 +1,29 @@
-{% extends 'app/base.haml' %}
-
-{% block content %}
-
-%p You ({{ user.first_name }} {{ user.last_name }}) are logged in as a patient
-%a.btn.btn-lrg.btn-primary{:href => "{% url 'app:appointment' %}"} Book a new appointment
-%br
-%br
-
-{% comment %}
 {% if not appointment_list %}
-    %p You don't have any appointment
+  %p You don't have any appointment
 {% else %}
   .table-responsive
     %table.table.table-hover.table-striped.table-bordered
       %thead
         %tr
+          {% if user.doctor %}
+          %th Patient Name
+          {% endif %}
+          
+          {% if user.patient %}
           %th Doctor Name
+          {% endif %}
           %th Time
       %tbody
         {% for appointment in appointment_list %}
         %tr
+          {% if user.doctor %}
+          %th {{ appointment.patient.user.first_name|capfirst }} {{ appointment.patient.user.last_name|capfirst }}
+          {% endif %}
+          
+          {% if user.patient %}
           %th {{ appointment.doctor.user.first_name }} {{ appointment.doctor.user.last_name }}
+          {% endif %}
+          
           %th {{ appointment.datetime }}
         {% endfor %}
 {% endif %}
-{% endcomment %}
-
-{% include 'app/table.haml' %}
-
-{% endblock %}

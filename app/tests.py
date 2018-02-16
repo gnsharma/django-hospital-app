@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 
-# class ProfileModelTests(TestCase):
+from .models import Doctor, Patient, Appointment
 
-#    def test_
+class HomeViewTests(TestCase):
+    def test_
