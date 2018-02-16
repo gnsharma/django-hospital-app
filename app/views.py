@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -134,11 +136,15 @@ class AppointmentView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            appointment = form.save(commit=False)
-            patient = Patient.objects.get(user__id=request.user.id)
-            appointment.patient = patient
-            appointment.save()
-            return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
+            appointment_list = list(Appointment.objects.filter( datetime__gte = form.cleaned_data['datetime'] - datetime.timedelta(hours=1) ).filter( datetime__lte = form.cleaned_data['datetime'] + datetime.timedelta(hours=1) ).filter(doctor__user=request.user.id))
+            if appointment_list:
+                return render(request, 'app/appointment.haml', {'form': form})
+            else:
+                appointment = form.save(commit=False)
+                patient = Patient.objects.get(user__id=request.user.id)
+                appointment.patient = patient
+                appointment.save()
+                return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
         else:
             return render(request, 'app/appointment.haml', {'form': form})
 
