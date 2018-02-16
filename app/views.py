@@ -141,3 +141,28 @@ class AppointmentView(LoginRequiredMixin, View):
             return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
         else:
             return render(request, 'app/appointment.haml', {'form': form})
+
+
+class DeleteAppointmentView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        appointment = Appointment.objects.get(id=kwargs['id'])
+        appointment.delete()
+        if hasattr(request.user, 'doctor'):
+            return HttpResponseRedirect(reverse('app:doctor', args=(request.user.id,)))
+        if hasattr(request.user, 'patient'):
+            return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+

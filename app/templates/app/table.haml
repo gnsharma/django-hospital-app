@@ -13,6 +13,7 @@
           %th Doctor Name
           {% endif %}
           %th Time
+          %th Delete
       %tbody
         {% for appointment in appointment_list %}
         %tr
@@ -25,5 +26,7 @@
           {% endif %}
           
           %th {{ appointment.datetime }}
+          %th 
+            %a{:href => "{% url 'app:delete-appointment' appointment.id %}" } Delete Appointment
         {% endfor %}
 {% endif %}
