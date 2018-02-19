@@ -11,21 +11,25 @@
 {% if not appointment_list %}
     %p You don't have any appointment
 {% else %}
-  .table-responsive
-    %table.table.table-hover.table-striped.table-bordered
-      %thead
-        %tr
-          %th Doctor Name
-          %th Time
-      %tbody
-        {% for appointment in appointment_list %}
-        %tr
-          %th {{ appointment.doctor.user.first_name }} {{ appointment.doctor.user.last_name }}
-          %th {{ appointment.datetime }}
-        {% endfor %}
+
+  %script
+    $(document).ready(function() {
+        var dataSet = JSON.parse("{{appointment_list|escapejs }}");
+        console.log(dataSet);
+        $('#appointment-table').DataTable({
+            data: dataSet, 
+            columns: [
+                { title: "Doctor Name" },
+                { title: "Last Name"},
+                { title: "Time" },
+            ]
+        });
+    });
+
+  %table#appointment-table.display{:width => "100%"}
+
 {% endif %}
 {% endcomment %}
 
 {% include 'app/table.haml' %}
-
 {% endblock %}

@@ -15,6 +15,6 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('doctor/<int:id>/', DoctorView.as_view(), name='doctor'),
     path('patient/<int:id>/', PatientView.as_view(), name='patient'),
-    path('appointment', AppointmentView.as_view(), name='appointment'),
-    path('appointment/<int:id>', DeleteAppointmentView.as_view(), name='delete-appointment'),
+    path('book/appointment', AppointmentView.as_view(), name='appointment'),
+    path('delete/appoitnment/<int:id>', DeleteAppointmentView.as_view(), name='delete-appointment'),
 ]

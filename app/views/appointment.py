@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 from app.models import Patient, Doctor, Appointment
 from app.forms import SignUpForm, LoginForm, AppointmentForm
@@ -23,8 +24,9 @@ class AppointmentView(LoginRequiredMixin, View):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment_list = list(Appointment.objects.filter( datetime__gte = form.cleaned_data['datetime'] - datetime.timedelta(hours=1) ).filter( datetime__lte = form.cleaned_data['datetime'] + datetime.timedelta(hours=1) ).filter(doctor=form.cleaned_data['doctor']))
-            import ipdb; ipdb.set_trace()
+#            import ipdb; ipdb.set_trace()
             if appointment_list:
+                messages.error(request, "Doctor is busy during this time.")
                 return render(request, 'app/appointment.haml', {'form': form})
             else:
                 appointment = form.save(commit=False)
