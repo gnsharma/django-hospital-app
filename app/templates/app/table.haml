@@ -4,26 +4,39 @@
   
   %script
     $(document).ready(function() {
-      var dataSet = JSON.parse("{{appointment_list|escapejs}}"); 
-        console.log(dataSet);
-        $('#appointment-table').DataTable({
-            data: dataSet,
-            columns: [
-                { data: "first_name", title: "First Name" },
-                { data: "last_name", title: "Last Name"},
-                { data: "time", title: "Time" },
-                { 
-                  data: "id", 
-                  title: "Delete", 
-                  render: function( data, type, row, meta) {
-                      console.log( data, type, row, meta);
-                      var s = "<a href = '{% url 'app:delete-appointment' data %}' > Delete </a>";
-                      return s;
-                  },
-                }, 
-            ],
-        });
+        $('#appointment-table').DataTable();
     });
 
-  %table#appointment-table.display{:width => "100%"}
+  .table.table-responsive
+    %table#appointment-table.table.table-bordered
+      %thead
+        %tr
+          {% if appointmen_list %} 
+          %th Doctor Name 
+          {% endif %}
+
+          {% if appointment_list %} 
+          %th Patient Name 
+          {% endif %}
+          
+          %th Last Name
+          %th Time
+
+      %tbody
+        {% for appointment in appointment_list %}
+        %tr
+          {% if hasattr(appointment, "patient") %} 
+          %th {{ appointment.doctor.user.first_name }}
+          %th {{ appointment.doctor.user.last_name }}
+          {% endif %}
+
+          {% if hasattr(appointment, "doctor") %}
+          %th {{ appointment.patien.user.first_name }}
+          %th {{ appointment.patient.user.last_name }}
+          {% endif %}
+          
+          %th {{ appointment.datetime }}
+          %th Delete
+        {% endfor %}
+
 {% endif %}

@@ -7,29 +7,5 @@
 %br
 %br
 
-{% comment %}
-{% if not appointment_list %}
-    %p You don't have any appointment
-{% else %}
-
-  %script
-    $(document).ready(function() {
-        var dataSet = JSON.parse("{{appointment_list|escapejs }}");
-        console.log(dataSet);
-        $('#appointment-table').DataTable({
-            data: dataSet, 
-            columns: [
-                { title: "Doctor Name" },
-                { title: "Last Name"},
-                { title: "Time" },
-            ]
-        });
-    });
-
-  %table#appointment-table.display{:width => "100%"}
-
-{% endif %}
-{% endcomment %}
-
 {% include 'app/table.haml' %}
 {% endblock %}

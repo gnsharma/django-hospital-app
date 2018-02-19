@@ -1,5 +1,3 @@
-import json
-
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -39,7 +37,6 @@ class DoctorSignUpView(View):
 class DoctorView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        l1 = list(Appointment.objects.filter(doctor__user=kwargs['id']))
-        appointment_list = json.dumps([ {"first_name": a.patient.user.first_name, "last_name": a.patient.user.last_name, "time": a.datetime, "id": a.id} for a in l1], default=str)
+        appointment_list = list(Appointment.objects.filter(doctor__user=kwargs['id']))
         return render(request, 'app/doctor.haml',
                       {'appointment_list': appointment_list})
