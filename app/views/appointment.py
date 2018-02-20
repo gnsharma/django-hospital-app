@@ -24,7 +24,6 @@ class AppointmentView(LoginRequiredMixin, View):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment_list = list(Appointment.objects.filter( datetime__gte = form.cleaned_data['datetime'] - datetime.timedelta(hours=1) ).filter( datetime__lte = form.cleaned_data['datetime'] + datetime.timedelta(hours=1) ).filter(doctor=form.cleaned_data['doctor']))
-#            import ipdb; ipdb.set_trace()
             if appointment_list:
                 messages.error(request, "Doctor is busy during this time.")
                 return render(request, 'app/appointment.haml', {'form': form})
