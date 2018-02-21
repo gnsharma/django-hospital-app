@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 from app.models import Patient, Doctor
 from app.forms import SignUpForm, LoginForm
@@ -54,7 +55,7 @@ class LoginView(View):
                     return HttpResponse("Your account is disabled.")
 
             else:
-                form = LoginForm()
+                messages.error(request, "User credentials are not correct.")
                 return render(request, 'app/login.haml', {'form': form})
         else:
             return render(request, 'app/login.haml', {'form': form})
