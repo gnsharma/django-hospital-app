@@ -37,6 +37,6 @@ class DoctorSignUpView(View):
 class DoctorView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        appointment_list = list(Appointment.objects.filter(doctor__user=kwargs['id']))
+        appointment_list = Appointment.objects.filter(doctor__user=kwargs['id'])
         return render(request, 'app/doctor.haml',
                       {'appointment_list': appointment_list})
