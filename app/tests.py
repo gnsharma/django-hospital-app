@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from .models import Doctor, Patient, Appointment
 
+
 class SignUpViewTests(TestCase):
 
     def test_got_signup_template(self):

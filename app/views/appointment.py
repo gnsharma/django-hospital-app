@@ -23,7 +23,15 @@ class AppointmentView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            appointment_list = list(Appointment.objects.filter( datetime__gte = form.cleaned_data['datetime'] - datetime.timedelta(hours=1) ).filter( datetime__lte = form.cleaned_data['datetime'] + datetime.timedelta(hours=1) ).filter(doctor=form.cleaned_data['doctor']))
+            appointment_list = list(
+                Appointment.objects.filter(
+                    datetime__gte=form.cleaned_data['datetime'] -
+                    datetime.timedelta(
+                        hours=1)).filter(
+                    datetime__lte=form.cleaned_data['datetime'] +
+                    datetime.timedelta(
+                        hours=1)).filter(
+                    doctor=form.cleaned_data['doctor']))
             if appointment_list:
                 messages.error(request, "Doctor is busy during this time.")
                 return render(request, 'app/appointment.haml', {'form': form})
@@ -46,7 +54,3 @@ class DeleteAppointmentView(LoginRequiredMixin, View):
             return HttpResponseRedirect(reverse('app:doctor', args=(request.user.id,)))
         if hasattr(request.user, 'patient'):
             return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
-
-
-
-

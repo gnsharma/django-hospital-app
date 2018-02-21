@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import View
-from django.contrib.auth.hashers import make_password 
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 
 from app.models import Patient, Doctor, Appointment
 from app.forms import SignUpForm
+
 
 class PatientSignUpView(View):
 
@@ -37,4 +38,4 @@ class PatientView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         appointment_list = Appointment.objects.filter(patient__user=kwargs['id'])
         return render(request, 'app/patient.haml',
-                {'appointment_list': appointment_list})
+                      {'appointment_list': appointment_list})
