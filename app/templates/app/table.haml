@@ -2,11 +2,6 @@
   %p You don't have any appointment
 {% else %}
   
-  %script
-    $(document).ready(function() {
-        $('#appointment-table').DataTable();
-    });
-
   .table.table-responsive
     %table#appointment-table.table.table-striped.table-bordered
       %thead
@@ -42,3 +37,14 @@
         {% endfor %}
 
 {% endif %}
+
+{% block script %}
+
+  %script
+    $(document).ready(function() {
+        $('#appointment-table').DataTable();
+    });
+
+{% endblock %}
+
+
