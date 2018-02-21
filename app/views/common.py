@@ -9,6 +9,12 @@ from app.models import Patient, Doctor
 from app.forms import SignUpForm, LoginForm
 
 
+class RedirectView(View):
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(reverse('app:home'))
+
+
 class HomeView(View):
 
     def get(self, request, *args, **kwargs):
@@ -32,7 +38,7 @@ class LoginView(View):
     def get(self, request, *args, **kwargs):
         form = LoginForm()
         return render(request, 'app/login.haml', {'form': form})
-                            
+
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST)
         if form.is_valid():
