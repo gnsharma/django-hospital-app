@@ -25,20 +25,20 @@ class HomeView(View):
             if hasattr(request.user, 'patient'):
                 return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
         else:
-            return render(request, 'app/home.haml')
+            return render(request, 'app/common/home.haml')
 
 
 class SignUpView(View):
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'app/signup.haml', {})
+        return render(request, 'app/common/signup.haml', {})
 
 
 class LoginView(View):
 
     def get(self, request, *args, **kwargs):
         form = LoginForm()
-        return render(request, 'app/login.haml', {'form': form})
+        return render(request, 'app/common/login.haml', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST)
@@ -56,9 +56,9 @@ class LoginView(View):
 
             else:
                 messages.error(request, "User credentials are not correct.")
-                return render(request, 'app/login.haml', {'form': form})
+                return render(request, 'app/common/login.haml', {'form': form})
         else:
-            return render(request, 'app/login.haml', {'form': form})
+            return render(request, 'app/common/login.haml', {'form': form})
 
 
 class LogoutView(View):

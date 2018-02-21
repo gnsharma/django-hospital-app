@@ -18,7 +18,7 @@ class AppointmentView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         form = AppointmentForm()
-        return render(request, 'app/appointment.haml', {'form': form})
+        return render(request, 'app/appointment/appointment.haml', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = AppointmentForm(request.POST)
@@ -34,7 +34,7 @@ class AppointmentView(LoginRequiredMixin, View):
                     doctor=form.cleaned_data['doctor']))
             if appointment_list:
                 messages.error(request, "Doctor is busy during this time.")
-                return render(request, 'app/appointment.haml', {'form': form})
+                return render(request, 'app/appointment/appointment.haml', {'form': form})
             else:
                 appointment = form.save(commit=False)
                 patient = Patient.objects.get(user__id=request.user.id)
@@ -42,7 +42,7 @@ class AppointmentView(LoginRequiredMixin, View):
                 appointment.save()
                 return HttpResponseRedirect(reverse('app:patient', args=(request.user.id,)))
         else:
-            return render(request, 'app/appointment.haml', {'form': form})
+            return render(request, 'app/appointment/appointment.haml', {'form': form})
 
 
 class DeleteAppointmentView(LoginRequiredMixin, View):

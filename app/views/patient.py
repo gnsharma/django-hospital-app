@@ -14,7 +14,7 @@ class PatientSignUpView(View):
 
     def get(self, request, *args, **kwargs):
         form = SignUpForm()
-        return render(request, 'app/patient_signup.haml', {'form': form})
+        return render(request, 'app/patient/patient_signup.haml', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = SignUpForm(request.POST)
@@ -30,12 +30,12 @@ class PatientSignUpView(View):
             patient.save()
             return HttpResponseRedirect(reverse('app:login'))
         else:
-            return render(request, 'app/patient_signup.haml', {'form': form})
+            return render(request, 'app/patient/patient_signup.haml', {'form': form})
 
 
 class PatientView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         appointment_list = Appointment.objects.filter(patient__user=kwargs['id'])
-        return render(request, 'app/patient.haml',
+        return render(request, 'app/patient/patient.haml',
                       {'appointment_list': appointment_list})
