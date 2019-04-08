@@ -11,3 +11,5 @@ class SignUpViewTests(TestCase):
 
     def test_got_signup_template(self):
         response = self.client.get(reverse('app:signup'))
+        self.assertEqual(response.status_code, 200)
+        
